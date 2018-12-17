@@ -2,7 +2,9 @@ var timerOn = false;
 var timeRunning;
 var time = 5;
 var interimTime;
+var interimTimer = 5;
 var questionNum;
+var currentQuestion=0;
 var trivia = {
     "question1": "How long has Juicy J Been Rich?",
     "answer1": ["The late 80's.", "Juicy J been rich since the 90's.", "According to celebritynetworth.com Juicy J is not rich at all.", "None of the above."],
@@ -21,6 +23,7 @@ $(".hiddenButtons").hide();
 
 $(document).ready(function () {
     $("#bgnBtn").on("click", function () {
+        currentQuestion++
         $(".hiddenQuestion").show("fast");
         $(".hiddenButtons").show("fast");
         $("#bgnBtn").hide();
@@ -35,15 +38,26 @@ $(document).ready(function () {
     }
     )
     function count() {
-        if (timerOn === true && time <= 5) {
+        if (timerOn === true && time >= 0) {
             time--;
             var converted = timeConverter(time);
             $(".timeLeft").text(converted + " seconds remaining to answer this question.")
-        }else if (timerOn === true && time == 0) {
+        }else if (timerOn === true && time <= 0) {
             timerOn ===false;
-            interimTime===true;
+            interimTime==5;
+            interimTime = setInterval(countInterim, 1000);
         }
     }
+
+    function countInterim() {
+        if (timerOn==false && interimTime >= 0) {
+            interimTime--;
+            var converted = timeConverter(interimTime);
+            $(".timeLeft").text("The next question will begin in " + interimTimer + " seconds!");
+        }
+    }
+
+
     function timeConverter(t) {
         var minutes = Math.floor(t / 60);
         var seconds = t - (minutes * 60);
