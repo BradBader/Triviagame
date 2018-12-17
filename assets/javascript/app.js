@@ -34,11 +34,11 @@ $(document).ready(function () {
         $(".fourthOne").text("  " + trivia.answer1[3] + "  ");
         timerOn = true;
         timeRunning = setInterval(count, 1000);
-        $(".timeLeft").text(timeRunning + " seconds remaining.");
+        
     }
     )
     function count() {
-        if (timerOn === true && time >= 0) {
+        if (timerOn === true && time >= 1) {
             time--;
             var converted = timeConverter(time);
             $(".timeLeft").text(converted + " seconds remaining to answer this question.")
