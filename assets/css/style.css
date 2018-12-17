@@ -1,0 +1,23 @@
+body {
+    background-image:url("../images/question-mark-2492009_1920.jpg")
+}
+
+h1 {color: white;
+}
+
+.mrt { margin-top: 20px;}
+
+.boxOne {
+    background-color:grey
+    }
+
+#begin {
+    text-align: center;
+}
+
+.ctr {
+    text-align:center;
+    align-content:center;
+}
+
+.sdow {text-shadow: 5px 5px 7px #140707;}
