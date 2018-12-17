@@ -1,6 +1,6 @@
 var timerOn = false;
 var timeRunning;
-var time = 10;
+var time = 5;
 var interimTime;
 var questionNum;
 var trivia = {
@@ -35,10 +35,13 @@ $(document).ready(function () {
     }
     )
     function count() {
-        if (time <= 10) {
+        if (timerOn === true && time <= 5) {
             time--;
             var converted = timeConverter(time);
             $(".timeLeft").text(converted + " seconds remaining to answer this question.")
+        }else if (timerOn === true && time == 0) {
+            timerOn ===false;
+            interimTime===true;
         }
     }
     function timeConverter(t) {
