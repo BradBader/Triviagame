@@ -1,10 +1,13 @@
 var timerOn = false;
 var timeRunning;
-var time = 5;
+var time = 20;
 var interimTime;
 var interimTimer = 5;
 var questionNum;
 var currentQuestion=0;
+var correctAnswers;
+var incorrectAnswers;
+var unAnswered;
 var trivia = {
     "question1": "How long has Juicy J Been Rich?",
     "answer1": ["The late 80's.", "Juicy J been rich since the 90's.", "According to celebritynetworth.com Juicy J is not rich at all.", "None of the above."],
@@ -34,7 +37,9 @@ $(document).ready(function () {
         $(".fourthOne").text("  " + trivia.answer1[3] + "  ");
         timerOn = true;
         timeRunning = setInterval(count, 1000);
-        
+        if ($(this).val(3)) {
+            console.log("value worked")
+        }
     }
     )
     function count() {
