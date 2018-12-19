@@ -1,7 +1,6 @@
 var timerOn = false;
 var timeRunning;
 var time = 20;
-var questionNum;
 var currentQuestion = 0;
 var correctAnswers = 0;
 var incorrectAnswers = 0;
@@ -45,7 +44,7 @@ var gifArray = [
 ]
 
 $("h4").mouseover(function () {
-    if (currentQuestion < 10 && time > 0) {
+    if (currentQuestion <= 9 && time > 0) {
         $(this).addClass("highlighting").attr("<button>");;
     }
 
@@ -53,34 +52,34 @@ $("h4").mouseover(function () {
 });
 
 $("h4").mouseout(function () {
-    if (currentQuestion < 10 && time > 0) {
+    if (currentQuestion <= 9 && time > 0) {
         $(this).removeClass("highlighting");
     }
 });
 
 $(".hiddenQuestion").hide();
 $(".hiddenButtons").hide();
+$("#resetBtn").hide();
 
 function rightOrWrong() {
     if ($(this).val() == "winner" && time > 0) {
         hideAll();
-        showGif=gifArray[currentGif];
+        showGif = gifArray[currentGif];
         $(".displayGif").html(showGif).show("fast");
         $(".hiddenQuestion").show("fast").html("<h2 class='sdow'>That's Right, You got that Right!");
         correctAnswers++;
         currentGif++;
         setTimeout(function () { nextQuestion() }, 500);
-        setTimeout(function () { questionCycle() }, 8000);
+        setTimeout(function () { questionCycle() }, 1000);
     } else {
-        // if ($(this).val() != "winner") {
         hideAll();
-        showGif=gifArray[currentGif];
+        showGif = gifArray[currentGif];
         $(".displayGif").html(showGif).show("fast");
         $(".hiddenQuestion").html("<h2 class='sdow'>That's incorrect!").show("fast");
         incorrectAnswers++;
         currentGif++;
         setTimeout(function () { nextQuestion() }, 500);
-        setTimeout(function () { questionCycle() }, 8000);
+        setTimeout(function () { questionCycle() }, 1000);
     }
 }
 
@@ -96,6 +95,7 @@ function showQA() {
     $(".displayGif").hide();
     $(".hiddenQuestion").show("fast");
     $(".hiddenButtons").show("fast");
+    $(".timeLeft").show();
 }
 
 function nextQuestion() {
@@ -111,9 +111,16 @@ function resetValue() {
 
 }
 
+function resetClickFeatures() {
+    $(".firstOne").prop("onclick", null).off("click");
+    $(".secondOne").prop("onclick", null).off("click");
+    $(".thirdOne").prop("onclick", null).off("click");
+    $(".fourthOne").prop("onclick", null).off("click");
+    $("#resetBtn").prop("onclick", null).off("click");
+}
+
 function questionCycle() {
     time = 20;
-    $(".timeLeft").show();
     if (currentQuestion == 0 && time > 0) {
         showQA();
         $(".hiddenQuestion").html("<h2>" + trivia.question0);
@@ -185,58 +192,88 @@ function questionCycle() {
         $(".secondOne").text("  " + trivia.answer9[1] + "  ");
         $(".thirdOne").text("  " + trivia.answer9[2] + "  ");
         $(".fourthOne").val("winner").text("  " + trivia.answer9[3] + "  ");
-    }else if (currentQuestion >= 10 || time <= 0) {
-            timerOn === false;
-            $(".timeleft").hide();
-            hideAll()
-            $("h4").html("<h3>")
-            $(".hiddenQuestion").show("fast").html("<h2>YOU'RE DONE SON!");
-            $(".hiddenButtons").show("fast")
-            $(".firstOne").text("You guessed: " + correctAnswers + " correctly!");
-            $(".secondOne").text("You choose poorly: " + incorrectAnswers + " times!")
-            $(".thirdOne").text("You didn't even guess: " + unAnswered + " times!")
-            $(".displayGif").html("<iframe src='https://giphy.com/embed/cOB8cDnKM6eyY' width='480' height='270' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>");
+    } else if (currentQuestion >= 10) {
+        timerOn === false;
+        $(".timeleft").hide();
+        hideAll()
+        $("h4").html("<h3>")
+        $(".hiddenQuestion").show("fast").html("<h2>YOU'RE DONE SON!");
+        $(".hiddenButtons").show("fast")
+        $(".firstOne").text("You guessed: " + correctAnswers + " correctly!");
+        $(".secondOne").text("You choose poorly: " + incorrectAnswers + " times!")
+        $(".thirdOne").text("You didn't even guess: " + unAnswered + " times!")
+        $(".displayGif").html("<iframe src='https://giphy.com/embed/cOB8cDnKM6eyY' width='480' height='270' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>");
+        $("#resetBtn").show("fast");
+        $("#resetBtn").on("click", function () {
+            timerOn = true;
+            time = 20;
+            currentQuestion = 0;
+            correctAnswers = 0;
+            incorrectAnswers = 0;
+            unAnswered = 0;
+            showGif;
+            currentGif = 0;
+            $("#resetBtn").hide();
+            resetClickFeatures()
+            questionCycle();})
 
-        }
     }
 
-    $(document).ready(function () {
-        $("#bgnBtn").on("click", function () {
-            timerOn = true;
-            timeRunning = setInterval(count, 1000);
-            $("#bgnBtn").hide();
-            questionCycle();
-        })
+}
 
-        function count() {
-            if (timerOn === true && time >= 1) {
-                time--;
-                var converted = timeConverter(time);
-                $(".timeLeft").text(converted + " seconds remaining to answer this question.")
-            } else if (timerOn === true && time <= 0 && currentQuestion <= 3) {
-                unAnswered++;
-                hideAll();
-                nextQuestion();
-                questionCycle();
-            } else if (currentQuestion >= 4) {
-                timerOn === false;
-
-            }
-
-            function timeConverter(t) {
-                var minutes = Math.floor(t / 60);
-                var seconds = t - (minutes * 60);
-                if (seconds < 10) {
-                    seconds = "0" + seconds;
-                }
-                if (minutes === 0) {
-                    minutes = "00";
-                }
-                else if (minutes < 10) {
-                    minutes = "0" + minutes;
-                }
-                return minutes + ":" + seconds;
-            }
-        }
+$(document).ready(function () {
+    $("#bgnBtn").on("click", function () {
+        timerOn = true;
+        timeRunning = setInterval(count, 1000);
+        $("#bgnBtn").hide();
+        questionCycle();
+        console.log("begin button click works")
     })
+    $("#resetBtn").on("click", function () {
+        timerOn = true;
+        time = 20;
+        currentQuestion = 0;
+        correctAnswers = 0;
+        incorrectAnswers = 0;
+        unAnswered = 0;
+        showGif;
+        currentGif = 0;
+        $("#resetBtn").hide();
+        resetClickFeatures()
+        questionCycle();})
+
+})
+
+function count() {
+    if (timerOn = true && time >= 1) {
+        time--;
+        var converted = timeConverter(time);
+        $(".timeLeft").text(converted + " seconds remaining to answer this question.")
+    } if (time <= 0) {
+        unAnswered++;
+        hideAll();
+        nextQuestion();
+        questionCycle();
+        currentGif++;
+    } else if (currentQuestion >= 10) {
+        timerOn = false;
+
+    }
+
+    function timeConverter(t) {
+        var minutes = Math.floor(t / 60);
+        var seconds = t - (minutes * 60);
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+        if (minutes === 0) {
+            minutes = "00";
+        }
+        else if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        return minutes + ":" + seconds;
+    }
+}
+
 
