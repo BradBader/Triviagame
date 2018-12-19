@@ -6,6 +6,8 @@ var currentQuestion = 0;
 var correctAnswers = 0;
 var incorrectAnswers = 0;
 var unAnswered = 0;
+var currentGif = 0;
+var showGif;
 var trivia = {
     "question0": "Who is the terror that quacks in the night?",
     "answer0": ["Darkwing Duck", "Howard the Duck", "Mallard Ducks", "All ducks on the endangered list."],
@@ -27,9 +29,20 @@ var trivia = {
     "answer8": ["Doug's friends.", "Codenames for Ren and Stimpy.", "Characters on the hit show 'Talespin'.", "Gargoyles."],
     "question9": "Which of these characters were NOT in the 90's X-men cartoon?",
     "answer9": ["Forge", "Wolverine", "Morph", "Hawkeye"],
-
-
 }
+
+var gifArray = [
+    '<iframe src="https://giphy.com/embed/oadZJB3hwMFjy" width="480" height="361" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+    '<iframe src="https://giphy.com/embed/kyvfTILTg7ywg" width="480" height="290" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+    '<iframe src="https://giphy.com/embed/4CEOpMBMwiODm" width="480" height="323" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+    '<iframe src="https://giphy.com/embed/D5UQfXhPJGRCo" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+    '<iframe src="https://giphy.com/embed/nnKAzCkuUdc1W" width="480" height="197" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+    '<iframe src="https://giphy.com/embed/26wd3TADhdCk3Ap8s" width="480" height="260" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+    '<iframe src="https://giphy.com/embed/q6c6pftFu5K3S" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+    '<iframe src="https://giphy.com/embed/yD8Yr2U3x5wJi" width="480" height="317" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+    '<iframe src="https://giphy.com/embed/S78stHRYfS1ag" width="480" height="276" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+    '<iframe src="https://giphy.com/embed/PDJu2F3NKtMpq" width="480" height="361" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+]
 
 $("h4").mouseover(function () {
     if (currentQuestion < 10 && time > 0) {
@@ -51,18 +64,23 @@ $(".hiddenButtons").hide();
 function rightOrWrong() {
     if ($(this).val() == "winner" && time > 0) {
         hideAll();
-        console.log("a button with the winning value was pressed")
+        showGif=gifArray[currentGif];
+        $(".displayGif").html(showGif).show("fast");
         $(".hiddenQuestion").show("fast").html("<h2 class='sdow'>That's Right, You got that Right!");
         correctAnswers++;
-        setTimeout(function () { nextQuestion() }, 1000);
-        setTimeout(function () { questionCycle() }, 2000);
+        currentGif++;
+        setTimeout(function () { nextQuestion() }, 500);
+        setTimeout(function () { questionCycle() }, 8000);
     } else {
         // if ($(this).val() != "winner") {
         hideAll();
+        showGif=gifArray[currentGif];
+        $(".displayGif").html(showGif).show("fast");
         $(".hiddenQuestion").html("<h2 class='sdow'>That's incorrect!").show("fast");
         incorrectAnswers++;
-        setTimeout(function () { nextQuestion() }, 1000);
-        setTimeout(function () { questionCycle() }, 2000);
+        currentGif++;
+        setTimeout(function () { nextQuestion() }, 500);
+        setTimeout(function () { questionCycle() }, 8000);
     }
 }
 
@@ -70,10 +88,12 @@ function rightOrWrong() {
 function hideAll() {
     $(".hiddenQuestion").hide();
     $(".hiddenButtons").hide();
+    $(".timeLeft").hide();
     $("#bgnBtn").hide();
 }
 
 function showQA() {
+    $(".displayGif").hide();
     $(".hiddenQuestion").show("fast");
     $(".hiddenButtons").show("fast");
 }
@@ -81,8 +101,6 @@ function showQA() {
 function nextQuestion() {
     resetValue();
     currentQuestion++;
-    console.log(" the current question just changed, the new value is as shown." + currentQuestion)
-    time = 20;
 }
 
 function resetValue() {
@@ -93,12 +111,9 @@ function resetValue() {
 
 }
 
-function correctAnswersFunction() {
-    hideAll()
-    $(".hiddenQuestion").text("That's Right, You got that Right!").show("fast");
-}
-
 function questionCycle() {
+    time = 20;
+    $(".timeLeft").show();
     if (currentQuestion == 0 && time > 0) {
         showQA();
         $(".hiddenQuestion").html("<h2>" + trivia.question0);
@@ -180,7 +195,7 @@ function questionCycle() {
             $(".firstOne").text("You guessed: " + correctAnswers + " correctly!");
             $(".secondOne").text("You choose poorly: " + incorrectAnswers + " times!")
             $(".thirdOne").text("You didn't even guess: " + unAnswered + " times!")
-            $(".fourthOne").html("<iframe src='https://giphy.com/embed/cOB8cDnKM6eyY' width='480' height='270' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>");
+            $(".displayGif").html("<iframe src='https://giphy.com/embed/cOB8cDnKM6eyY' width='480' height='270' frameBorder='0' class='giphy-embed' allowFullScreen></iframe>");
 
         }
     }
