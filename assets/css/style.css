@@ -8,7 +8,8 @@ h1 {color: white;
 .mrt { margin-top: 20px;}
 
 .boxOne {
-    background-color:grey
+    background-color:grey;
+    min-height: 600px;
     }
 
 #begin {
@@ -27,7 +28,7 @@ h4 {width: fit-content;
 
 .highlighting {
     background-color: lightgoldenrodyellow;
-    border: solid black 2px;
+    border: solid black 1px;
     padding-left: 8px;
     padding-right: 8px;
  }
