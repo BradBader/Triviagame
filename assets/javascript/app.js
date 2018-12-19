@@ -70,7 +70,7 @@ function rightOrWrong() {
         correctAnswers++;
         currentGif++;
         setTimeout(function () { nextQuestion() }, 500);
-        setTimeout(function () { questionCycle() }, 1000);
+        setTimeout(function () { questionCycle() }, 10000);
     } else {
         hideAll();
         showGif = gifArray[currentGif];
@@ -79,7 +79,7 @@ function rightOrWrong() {
         incorrectAnswers++;
         currentGif++;
         setTimeout(function () { nextQuestion() }, 500);
-        setTimeout(function () { questionCycle() }, 1000);
+        setTimeout(function () { questionCycle() }, 10000);
     }
 }
 
