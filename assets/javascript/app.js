@@ -64,6 +64,7 @@ $("#resetBtn").hide();
 function rightOrWrong() {
     timerOn = false;
     if ($(this).val() == "winner" && time > 0) {
+        document.getElementById("thatsright").play()
         hideAll();
         showGif = gifArray[currentGif];
         $(".displayGif").html(showGif).show("fast");
