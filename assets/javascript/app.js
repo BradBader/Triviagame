@@ -68,7 +68,7 @@ function rightOrWrong() {
         hideAll();
         showGif = gifArray[currentGif];
         $(".displayGif").html(showGif).show("fast");
-        $(".hiddenQuestion").show("fast").html("<h2 class='sdow'>That's Right, You got that Right!");
+        $(".hiddenQuestion").show("fast").html("<h2 class='sdow white'>That's Right, You got that Right!");
         correctAnswers++;
         currentGif++;
         setTimeout(function () { nextQuestion() }, 500);
@@ -77,7 +77,7 @@ function rightOrWrong() {
         hideAll();
         showGif = gifArray[currentGif];
         $(".displayGif").html(showGif).show("fast");
-        $(".hiddenQuestion").html("<h2 class='sdow'>That's incorrect!").show("fast");
+        $(".hiddenQuestion").html("<h2 class='sdow white'>That's incorrect!").show("fast");
         incorrectAnswers++;
         currentGif++;
         setTimeout(function () { nextQuestion() }, 500);
@@ -124,6 +124,7 @@ function resetClickFeatures() {
 function questionCycle() {
     stop();
     start();
+    document.getElementById("background").play()
     if (currentQuestion == 0 && time > 0) {
         showQA();
         $(".hiddenQuestion").html("<h2>" + trivia.question0);
@@ -231,7 +232,6 @@ function stop() {
 
 function start() {
     if (timerOn == false) {
-        console.log("start has occurred")
         time = 20;
         timeRunning = setInterval(count, 1000);
         timerOn = true;
@@ -243,7 +243,6 @@ $(document).ready(function () {
         start();
         $("#bgnBtn").hide();
         questionCycle();
-        console.log("begin button click works")
     })
     $("#resetBtn").on("click", function () {
         start();
@@ -268,7 +267,6 @@ function count() {
         var converted = timeConverter(time);
         $(".timeLeft").text(converted + " seconds remaining to answer this question.")
     } if (time <= 0 && timerOn == true) {
-        console.log("timerOn")
         unAnswered++;
         hideAll();
         nextQuestion();
