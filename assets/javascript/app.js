@@ -124,7 +124,6 @@ function resetClickFeatures() {
 function questionCycle() {
     stop();
     start();
-    document.getElementById("background").play()
     if (currentQuestion == 0 && time > 0) {
         showQA();
         $(".hiddenQuestion").html("<h2>" + trivia.question0);
